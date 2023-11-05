@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 using webapi.Context;
 using webapi.Helper;
 using webapi.Models;
@@ -14,6 +16,21 @@ namespace webapi
             var lstOfStudents = context.Students.ToArray();
             Console.WriteLine("Proc has been called");
             return lstOfStudents;
+        }
+        public string DeleteStudentById(int sid)
+        {
+            //var dt = SqlHelper.ExecuteDataTable(SqlHelper.GetConnectionString(""),CommandType.Text, "select * from students WITH(NOLOCK)");
+            try
+            {
+                var context = new TestAppContext();
+                var lstOfStudents = context.Students.Where(a => a.StudentID == sid).ExecuteDelete();
+                Console.WriteLine("Proc has been called");
+                return "success";
+            }
+            catch (Exception)
+            {
+                return "Fail";
+            }
         }
         public string SetStudent(Students s)
         {

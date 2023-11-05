@@ -42,6 +42,10 @@ export default defineConfig({
             '^/api/Student/1/getstudentList': {
                 target: 'https://localhost:7240/',
                 secure: false
+            },
+            '^/api/Student/1/deleteStudent/*': {
+                target: 'https://localhost:7240/',
+                secure: false
             }
         },
         port: 5173,
