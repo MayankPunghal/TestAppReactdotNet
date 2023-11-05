@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StudentForm from './StudentForm';
+import Styles from './Students.css';
 export default class App extends Component {
     static displayName = App.name;
 
@@ -25,14 +26,14 @@ export default class App extends Component {
             });
     }
     componentDidMount() {
-        //this.populateWeatherData();
-        this.populateWeatherDataString();
+        this.populateStudentData();
     }
 
-    static renderForecastsTable(forecasts, studentList) {
+
+    static renderForecastsTable(studentList, handleDeleteStudent) {
         return (
             <div>
-                <table className='table table-striped' aria-labelledby="tabelLabel">
+                <table className='table table-striped student-table' aria-labelledby="tabelLabel">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -41,6 +42,7 @@ export default class App extends Component {
                             <th>Contact</th>
                             <th>DateOfBirth</th>
                             <th>Discipline</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,40 +54,22 @@ export default class App extends Component {
                                 <td>{student.contact}</td>
                                 <td>{student.dateOfBirth}</td>
                                 <td>{student.discipline}</td>
+                                <td>
+                                    <button className={Styles.deltebutton} onClick={() => handleDeleteStudent(student.studentID)}>Delete</button>
+                                </td>
                             </tr>
                         )}
                     </tbody>
                 </table>
-                {/*<table className='table table-striped' aria-labelledby="tabelLabel">*/}
-                {/*    <thead>*/}
-                {/*        <tr>*/}
-                {/*            <th>Date</th>*/}
-                {/*            <th>Temp. (C)</th>*/}
-                {/*            <th>Temp. (F)</th>*/}
-                {/*            <th>Summary</th>*/}
-                {/*            <th>State</th>*/}
-                {/*        </tr>*/}
-                {/*    </thead>*/}
-                {/*    <tbody>*/}
-                {/*        {forecasts.map(forecast =>*/}
-                {/*            <tr key={forecast.date}>*/}
-                {/*                <td>{forecast.date}</td>*/}
-                {/*                <td>{forecast.temperatureC}</td>*/}
-                {/*                <td>{forecast.temperatureF}</td>*/}
-                {/*                <td>{forecast.summary}</td>*/}
-                {/*                <td>{forecast.state}</td>*/}
-                {/*            </tr>*/}
-                {/*        )}*/}
-                {/*    </tbody>*/}
-                {/*</table>*/}
             </div>
         );
+
     }
 
     render() {
         let contents = this.state.loading
             ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-            : App.renderForecastsTable(this.state.forecasts, this.state.studentList);
+            : App.renderForecastsTable(this.state.studentList, this.handleDeleteStudent);
 
         return (
             <div>
@@ -97,12 +81,7 @@ export default class App extends Component {
         );
     }
 
-    //async populateWeatherData() {
-    //    const response = await fetch('weatherforecast');
-    //    const data = await response.json();
-    //    this.setState({ forecasts: data, loading: false });
-    //}
-    async populateWeatherDataString() {
+    async populateStudentData() {
         await fetch("/api/Student/1/getstudentList")
             .then((response) => {
                 if (response.ok) {
@@ -119,4 +98,28 @@ export default class App extends Component {
                 console.error(error);
             });
     }
+    handleDeleteStudent = (studentID) => {
+        if (window.confirm('Are you sure you want to delete this student?')) {
+            fetch(`/api/Student/1/deleteStudent/${studentID}`,
+                {
+                    method: 'DELETE',
+                })
+                .then((response) => {
+                    if (response.ok) {
+                        // Student deleted successfully, you can handle the response as needed.
+                        console.log('Student deleted successfully');
+                        // Refresh the student list after deletion
+                        this.populateStudentData();
+                    } else {
+                        // Handle errors or display error messages.
+                        console.error('Error deleting student');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                }
+                );
+        }
+    };
+
 }

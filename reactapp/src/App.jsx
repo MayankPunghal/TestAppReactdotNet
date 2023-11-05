@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import StudentForm from './StudentForm';
+import './Students.css';
 export default class App extends Component {
     static displayName = App.name;
 
@@ -10,7 +11,7 @@ export default class App extends Component {
 
     componentDidMount() {
         //this.populateWeatherData();
-        this.populateWeatherDataString();
+        this.populateStudentData();
     }
 
     static renderForecastsTable(forecasts,studentList) {
@@ -86,7 +87,7 @@ export default class App extends Component {
     //    const data = await response.json();
     //    this.setState({ forecasts: data, loading: false });
     //}
-    async populateWeatherDataString() {
+    async populateStudentData() {
         await fetch("/api/Student/1/getstudentList")
                 .then((response) => {
                     if (response.ok) {

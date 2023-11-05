@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 using webapi.Helper;
 using webapi.Models;
+using static webapi.Helper.ApiRoute;
 
 namespace webapi.Controllers;
 
@@ -40,11 +41,18 @@ public class StudentController : ControllerBase
 {
 
     [HttpGet(ApiRoute.Students.getStudentList, Name = "GetStudentData")]
-    public IEnumerable<Students> GetStudentData()
+    public IEnumerable<Models.Students> GetStudentData()
     {
         //Proc call
         var arrStudents = new WeatherForecast1ControllerHelper().GetStudentsList();
         return arrStudents;
+    }
+    [HttpDelete(ApiRoute.Students.deleteStudent+ "/{studentID}", Name = "DeleteStudentById")]
+    public IActionResult DeleteStudentById(int studentID)
+    {
+        //Proc call
+        var arrStudents = new WeatherForecast1ControllerHelper().DeleteStudentById(studentID);
+        return Ok();
     }
 
 
@@ -52,7 +60,7 @@ public class StudentController : ControllerBase
     public string SetStudentData(SetStudentDataRequestProxy std)
     {
         //Proc call
-        Students stu = new Students()
+        Models.Students stu = new Models.Students()
         {
             Username = std.Username,
             Password = std.Password,
