@@ -7,7 +7,7 @@ using webapi.Models;
 
 namespace webapi
 {
-    public class WeatherForecast1ControllerHelper
+    public class StudentsControllerHelper
     {
         public IEnumerable<Students> GetStudentsList()
         {

@@ -1,40 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
+using webapi.Context;
 using webapi.Helper;
 using webapi.Models;
 using static webapi.Helper.ApiRoute;
 
 namespace webapi.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class WeatherForecastController : ControllerBase
-{
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-    private static readonly string[] State = new[]
-   {
-        "MH", "MP", "UP", "PB", "HR"
-    };
-
-
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
-    {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)],
-            State = State[Random.Shared.Next(State.Length)]
-        })
-        .ToArray();
-    }
-}
 [ApiController]
 [Route("api/[controller]")]
 public class StudentController : ControllerBase
@@ -44,14 +17,15 @@ public class StudentController : ControllerBase
     public IEnumerable<Models.Students> GetStudentData()
     {
         //Proc call
-        var arrStudents = new WeatherForecast1ControllerHelper().GetStudentsList();
+        var arrStudents = new StudentsControllerHelper().GetStudentsList();
         return arrStudents;
     }
+
     [HttpDelete(ApiRoute.Students.deleteStudent+ "/{studentID}", Name = "DeleteStudentById")]
     public IActionResult DeleteStudentById(int studentID)
     {
         //Proc call
-        var arrStudents = new WeatherForecast1ControllerHelper().DeleteStudentById(studentID);
+        var arrStudents = new StudentsControllerHelper().DeleteStudentById(studentID);
         return Ok();
     }
 
@@ -72,10 +46,39 @@ public class StudentController : ControllerBase
             DateOfBirth = std.DateOfBirth,
 
         };
-        var resp = new WeatherForecast1ControllerHelper().SetStudent(stu);
+        var resp = new StudentsControllerHelper().SetStudent(stu);
         if(resp == "success")
         return "Student Data Inserted Successfully";
         else 
             return "Student Data Not Inserted Due To Some Error";
+    }
+
+    [HttpPut(ApiRoute.Students.updateStudent + "/{studentID}", Name = "UpdateStudentData")]
+    public async Task<IActionResult> UpdateStudent(int studentID, [FromBody] Models.Students updatedStudent)
+    {
+        // Fetch the existing student from the database using studentID
+        var context = new TestAppContext();
+        var existingStudent = await context.Students.FindAsync(studentID);
+
+        if (existingStudent == null)
+        {
+            return NotFound(); // Return 404 if student doesn't exist
+        }
+
+        // Update the properties of the existing student with the new values
+        existingStudent.FirstName = updatedStudent.FirstName;
+        existingStudent.LastName = updatedStudent.LastName;
+        existingStudent.Email = updatedStudent.Email;
+        existingStudent.Discipline = updatedStudent.Discipline;
+        existingStudent.DateOfBirth = updatedStudent.DateOfBirth;
+        existingStudent.Contact = updatedStudent.Contact;
+        existingStudent.FullName = updatedStudent.FirstName + " " + updatedStudent.LastName;
+        // Update other properties similarly...
+
+        // Save the changes back to the database
+        context.Students.Update(existingStudent);
+        await context.SaveChangesAsync();
+
+        return Ok(existingStudent); // Return the updated student
     }
 }
