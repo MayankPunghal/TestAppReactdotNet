@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import Styles from './StudentForm.css'; 
 function StudentForm({ refreshStudentList }) {
     const [formData, setFormData] = useState({
         Username: '',
@@ -55,10 +55,10 @@ function StudentForm({ refreshStudentList }) {
     };
 
     return (
-        <div>
+        <div className={Styles.studentForm}>
             <h2>Add Student</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className="form-group">
                     <label>Username:</label>
                     <input
                         type="text"
@@ -66,8 +66,6 @@ function StudentForm({ refreshStudentList }) {
                         value={formData.Username}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
                     <label>Password:</label>
                     <input
                         type="password"
@@ -76,7 +74,7 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className={Styles.formGroup} >
                     <label>First Name:</label>
                     <input
                         type="text"
@@ -84,8 +82,6 @@ function StudentForm({ refreshStudentList }) {
                         value={formData.FirstName}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
                     <label>Last Name:</label>
                     <input
                         type="text"
@@ -94,7 +90,7 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className={Styles.formGroup}>
                     <label>Email:</label>
                     <input
                         type="email"
@@ -102,8 +98,6 @@ function StudentForm({ refreshStudentList }) {
                         value={formData.Email}
                         onChange={handleChange}
                     />
-                </div>
-                <div>
                     <label>Contact:</label>
                     <input
                         type="text"
@@ -112,7 +106,7 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className={Styles.formGroup}>
                     <label>Date of Birth:</label>
                     <input
                         type="date"
@@ -121,7 +115,7 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className={Styles.formGroup}>
                     <label>Discipline:</label>
                     <input
                         type="text"
@@ -130,8 +124,26 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <button type="submit">Add Student</button>
+                <div className={Styles.formGroup}>
+                    <button style={{ backgroundColor: 'darkseagreen', color: 'white', margin:'10px 0px 0px 0px'}} type="submit">Add Student</button>
+                </div>                
             </form>
+            {/*<div>*/}
+            {/*    <h2>Update Student Details</h2>*/}
+            {/*    <form onSubmit={handleUpdateStudent}>*/}
+            {/*        <div>*/}
+            {/*            <label>Username:</label>*/}
+            {/*            <input*/}
+            {/*                type="text"*/}
+            {/*                name="Username"*/}
+            {/*                value={formData.Username}*/}
+            {/*                onChange={handleChange}*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*        */}{/* Add similar code for other fields */}
+            {/*        <button type="submit">Save</button>*/}
+            {/*    </form>*/}
+            {/*</div>*/}
         </div>
     );
 }

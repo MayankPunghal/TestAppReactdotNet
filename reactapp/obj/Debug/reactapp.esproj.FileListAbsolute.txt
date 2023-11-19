@@ -1,2 +1,3 @@
 D:\React Projects\TestApp\TestApp\reactapp\obj\Debug\reactapp.esproj.CoreCompileInputs.cache
 C:\REACT PROJ\TestApp\reactapp\obj\Debug\reactapp.esproj.CoreCompileInputs.cache
+C:\REACT PROJ\TestAppReactdotNet\reactapp\obj\Debug\reactapp.esproj.CoreCompileInputs.cache

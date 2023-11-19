@@ -1,0 +1,26 @@
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .student-table th, .student-table td {
+        border: 1px solid #fff;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .student-table th {
+        background-color: #000;
+    }
+
+.deletebutton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+    .deletebutton:hover {
+        background-color: #d32f2f;
+    }
