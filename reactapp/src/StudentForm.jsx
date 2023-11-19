@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from './StudentForm.css'; 
 function StudentForm({ refreshStudentList }) {
     const [formData, setFormData] = useState({
@@ -125,9 +125,25 @@ function StudentForm({ refreshStudentList }) {
                     />
                 </div>
                 <div className={Styles.formGroup}>
-                    <button type="submit">Add Student</button>
+                    <button style={{ backgroundColor: 'darkseagreen', color: 'white', margin:'10px 0px 0px 0px'}} type="submit">Add Student</button>
                 </div>                
             </form>
+            {/*<div>*/}
+            {/*    <h2>Update Student Details</h2>*/}
+            {/*    <form onSubmit={handleUpdateStudent}>*/}
+            {/*        <div>*/}
+            {/*            <label>Username:</label>*/}
+            {/*            <input*/}
+            {/*                type="text"*/}
+            {/*                name="Username"*/}
+            {/*                value={formData.Username}*/}
+            {/*                onChange={handleChange}*/}
+            {/*            />*/}
+            {/*        </div>*/}
+            {/*        */}{/* Add similar code for other fields */}
+            {/*        <button type="submit">Save</button>*/}
+            {/*    </form>*/}
+            {/*</div>*/}
         </div>
     );
 }

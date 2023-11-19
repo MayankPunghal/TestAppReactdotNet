@@ -1,0 +1,35 @@
+/* StudentDetailsPopup.css */
+
+/* Styles for the overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styles for the modal container */
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Styles for the modal content */
+.modal-content {
+    color : black;
+}
+.modal-buttons {
+    padding-top : 10px;
+    display : flex;
+    width:250px;
+    justify-content: space-evenly;
+}
+/*.modal-buttons.button {
+    
+}*/

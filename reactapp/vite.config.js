@@ -31,19 +31,7 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
-                target: 'https://localhost:7240/',
-                secure: false
-            },
-            '^/api/Student/1/setstudent': {
-                target: 'https://localhost:7240/',
-                secure: false
-            },
-            '^/api/Student/1/getstudentList': {
-                target: 'https://localhost:7240/',
-                secure: false
-            },
-            '^/api/Student/1/deleteStudent/*': {
+            '^/api/Student/*': {
                 target: 'https://localhost:7240/',
                 secure: false
             }
