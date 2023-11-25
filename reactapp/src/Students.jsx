@@ -1,12 +1,14 @@
 import { Component} from 'react';
 import StudentForm from './StudentForm';
-import Styles from './Students.css';
+import './Students.css';
 import StudentPoPup from './StudentPoPup';
+import moment from 'moment';
 export default class App extends Component {
     static displayName = App.name;
     constructor(props) {
         super(props);
-        this.state = { forecasts: [], loading: true, studentList: [], selectedStudent: null,showModal: false };
+        this.state = {
+            forecasts: [], loading: true, studentList: [], selectedStudent: null, showModal: false, currentPage: 1,itemsPerPage: 10 };
     }
 
 
@@ -31,7 +33,20 @@ export default class App extends Component {
     }
 
 
-    static renderStudentList(studentList, selectedStudent, showModal, handleDeleteStudent, handleStudentClick, handleSaveStudent, handleClose) {
+    static renderStudentList(studentList, selectedStudent, showModal, handleDeleteStudent, handleStudentClick, handleSaveStudent, handleClose, currentPage, itemsPerPage, prevPage, nextPage, firstPage, lastPage) {
+        const indexOfLastItem = currentPage * itemsPerPage;
+        const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+        const currentItems = studentList.slice(indexOfFirstItem, indexOfLastItem);
+
+        const totalPages = Math.ceil(studentList.length / itemsPerPage);
+
+        const isPrevDisabled = currentPage <= 1;
+        const isNextDisabled = currentPage >= totalPages;
+        const isFirstDisabled = currentPage <= 1;
+        const isLastDisabled = currentPage >= totalPages;
+        const startIdx = (currentPage - 1) * itemsPerPage + 1;
+        const endIdx = Math.min(currentPage * itemsPerPage, studentList.length);
+
         return (
             <div>
                 <table className='table table-striped student-table' aria-labelledby="tabelLabel">
@@ -47,7 +62,7 @@ export default class App extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {studentList.map(student =>
+                        {currentItems.map(student =>
                             <tr key={student.studentID}>
                                 {/*<td>{student.studentID}</td>*/}
                                 <td>
@@ -66,15 +81,45 @@ export default class App extends Component {
                                 <td>{student.firstName} {student.lastName}</td>
                                 <td>{student.email}</td>
                                 <td>{student.contact}</td>
-                                <td>{student.dateOfBirth}</td>
+                                <td>{moment(student.dateOfBirth).format('DD-MM-YYYY')}</td>
                                 <td>{student.discipline}</td>
                                 <td>    
-                                    <button style={{ backgroundColor: 'beige', color: 'black', margin:'0px 5px 0px 0px' }} className={Styles.deltebutton} onClick={() => handleDeleteStudent(student.studentID)}>Delete</button>
+                                    <button
+                                        className={"deltebutton"} onClick={() => handleDeleteStudent(student.studentID)}>Delete</button>
                                     {/*<button style = {{ backgroundColor: 'salmon', color: 'white' }} onClick={() => handleEditStudent(student)}>Edit</button>*/}
                                 </td>
 
                             </tr>
                         )}
+                        {/*<div>*/}
+                        {/*    <span>Current Page: {currentPage}</span>*/}
+                        {/*    <span>Total Pages: {totalPages}</span>*/}
+                        {/*    <span>*/}
+                        {/*        Displaying {startIdx} - {endIdx} of {studentList.length} items*/}
+                        {/*    </span>*/}
+                        {/*</div>*/}
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>
+                                {`${startIdx}-${endIdx} of ${studentList.length} items`}
+                            </div>
+                            <div>
+                                {`${currentPage} of ${totalPages} total pages`}
+                            </div>
+                        </div>
+                        <div className="pagination">
+                            <button onClick={() => firstPage()} disabled={isFirstDisabled}>
+                                &lt;&lt;
+                            </button>
+                            <button onClick={() => prevPage()} disabled={isPrevDisabled}>
+                                &lt;
+                            </button>
+                            <button onClick={() => nextPage()} disabled={isNextDisabled}>
+                                &gt;
+                            </button>
+                            <button onClick={() => lastPage()} disabled={isLastDisabled}>
+                                &gt;&gt;
+                            </button>
+                        </div>
                     </tbody>
                 </table>
                 {showModal && (
@@ -93,7 +138,7 @@ export default class App extends Component {
     render() {
         let contents = this.state.loading
             ? <p><em>Loading... Please refresh once the ASP.NET backend has started</em></p>
-            : App.renderStudentList(this.state.studentList, this.state.selectedStudent, this.state.showModal, this.handleDeleteStudent, this.handleStudentClick, this.handleSaveStudent, this.handleClose);
+            : App.renderStudentList(this.state.studentList, this.state.selectedStudent, this.state.showModal, this.handleDeleteStudent, this.handleStudentClick, this.handleSaveStudent, this.handleClose, this.state.currentPage, this.state.itemsPerPage, this.prevPage, this.nextPage, this.firstPage, this.lastPage);
 
         return (
             <div>
@@ -179,6 +224,35 @@ export default class App extends Component {
     handleStudentClick = (student) => {
         this.setState({ showModal: true, selectedStudent: student });
     };
+
+    nextPage = () => {
+        const { studentList, currentPage, itemsPerPage } = this.state;
+        const totalPages = Math.ceil(studentList.length / itemsPerPage);
+
+        if (currentPage < totalPages) {
+            this.setState(prevState => ({
+                currentPage: prevState.currentPage + 1
+            }));
+        }
+    };
+
+    prevPage = () => {
+        if (this.state.currentPage > 1) {
+            this.setState(prevState => ({
+                currentPage: prevState.currentPage - 1
+            }));
+        }
+    };
+    firstPage = () => {
+        this.setState({ currentPage: 1 });
+    };
+
+    lastPage = () => {
+        const { studentList, itemsPerPage } = this.state;
+        const totalPages = Math.ceil(studentList.length / itemsPerPage);
+        this.setState({ currentPage: totalPages });
+    };
+
 
     //handleStudentClick = (student) => {
 

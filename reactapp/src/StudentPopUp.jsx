@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import './StudentPopUp.css'; // Import the CSS file
 
 const StudentPopUp = ({ student, handleSave, handleClose, refreshStudentList}) => {
@@ -58,7 +59,7 @@ const StudentPopUp = ({ student, handleSave, handleClose, refreshStudentList}) =
                                 <input
                                     type="date"
                                     name="dateOfBirth"
-                                    value={editedStudent.dateOfBirth}
+                                    value={moment(editedStudent.dateOfBirth).format('YYYY-MM-DD')}
                                     onChange={handleInputChange}
                                 />
                                 <input
@@ -78,7 +79,7 @@ const StudentPopUp = ({ student, handleSave, handleClose, refreshStudentList}) =
                             <div><strong>Name:</strong> {student.firstName} {student.lastName}</div>
                             <div><strong>Email:</strong> {student.email}</div>
                             <div><strong>Contact:</strong> {student.contact}</div>
-                            <div><strong>Date of Birth:</strong> {student.dateOfBirth}</div>
+                            <div><strong>Date of Birth:</strong> {moment(student.dateOfBirth).format('DD-MM-YYYY')}</div>
                                 <div><strong>Discipline:</strong> {student.discipline}</div>
                             <div className="modal-buttons">
                                 <button onClick={() => handleEdit(student)}>Edit</button>
