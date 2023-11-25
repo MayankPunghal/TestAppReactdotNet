@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Styles from './StudentForm.css'; 
+import './StudentForm.css'; 
 function StudentForm({ refreshStudentList }) {
     const [formData, setFormData] = useState({
         Username: '',
@@ -55,18 +55,20 @@ function StudentForm({ refreshStudentList }) {
     };
 
     return (
-        <div className={Styles.studentForm}>
+        <div className={"studentForm"}>
             <h2>Add Student</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Username:</label>
+                <div className="formGroup" >
+                    <label className="formLabels"> Username:</label>
                     <input
                         type="text"
                         name="Username"
                         value={formData.Username}
                         onChange={handleChange}
                     />
-                    <label>Password:</label>
+                </div>
+                <div className={"formGroup"} >
+                    <label className="formLabels"> Password:</label>
                     <input
                         type="password"
                         name="Password"
@@ -74,15 +76,17 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={Styles.formGroup} >
-                    <label>First Name:</label>
+                <div className={"formGroup"} >
+                    <label className={"formLabels"}> First Name:</label>
                     <input
                         type="text"
                         name="FirstName"
                         value={formData.FirstName}
                         onChange={handleChange}
                     />
-                    <label>Last Name:</label>
+                </div>
+                <div className={"formGroup"} >
+                    <label className={"formLabels"}> Last Name:</label>
                     <input
                         type="text"
                         name="LastName"
@@ -90,15 +94,17 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={Styles.formGroup}>
-                    <label>Email:</label>
+                <div className={"formGroup"}>
+                    <label className={"formLabels"}> Email:</label>
                     <input
                         type="email"
                         name="Email"
                         value={formData.Email}
                         onChange={handleChange}
                     />
-                    <label>Contact:</label>
+                </div>
+                <div className={"formGroup"} >
+                    <label className={"formLabels"}> Contact:</label>
                     <input
                         type="text"
                         name="Contact"
@@ -106,8 +112,8 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={Styles.formGroup}>
-                    <label>Date of Birth:</label>
+                <div className={"formGroup"}>
+                    <label className={"formLabels"}> Date of Birth:</label>
                     <input
                         type="date"
                         name="DateOfBirth"
@@ -115,8 +121,8 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={Styles.formGroup}>
-                    <label>Discipline:</label>
+                <div className={"formGroup"}>
+                    <label className={"formLabels"}> Discipline:</label>
                     <input
                         type="text"
                         name="Discipline"
@@ -124,15 +130,15 @@ function StudentForm({ refreshStudentList }) {
                         onChange={handleChange}
                     />
                 </div>
-                <div className={Styles.formGroup}>
-                    <button style={{ backgroundColor: 'darkseagreen', color: 'white', margin:'10px 0px 0px 0px'}} type="submit">Add Student</button>
+                <div className={"formGroup"}>
+                    <button type="submit" className={"SubmitButton"}>Add Student</button>
                 </div>                
             </form>
             {/*<div>*/}
             {/*    <h2>Update Student Details</h2>*/}
             {/*    <form onSubmit={handleUpdateStudent}>*/}
             {/*        <div>*/}
-            {/*            <label>Username:</label>*/}
+            {/*            <label className={Styles.formLabels}> Username:</label>*/}
             {/*            <input*/}
             {/*                type="text"*/}
             {/*                name="Username"*/}
